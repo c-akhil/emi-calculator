@@ -4,7 +4,8 @@
   "description": "calculate emi",
   "main": "app.js",
   "scripts": {
-    "test": "npm start"
+    "test": "npm start",
+    "start": "node app.js"
   },
   "author": "akhil <akhil.c@hotmail.com>",
   "license": "ISC",

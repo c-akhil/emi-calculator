@@ -29,11 +29,11 @@
                 </form>
             </div>
         </div>
-        <div id="emi-per-month" hidden style="display: none;" class="p-3 mb-2 bg-info text-white"></div>
+        <div id="statusMessage" style="display: none;" class="p-3 mb-2 bg-info text-white"></div>
 
     </div>
     <script>
-        let baseURL = "http://localhost:5555/"
+        let baseURL = "http://localhost:3000/"
         function calculateEmi() {
             let totalPrincipal = +parseFloat($("#total-principal").val());
             let rateOfInterest = +parseFloat($("#rate-of-interest").val());
@@ -44,8 +44,8 @@
                 timePeriod: timePeriod
             }
             $.post(baseURL + "api/calculateEmi", requestBody, function (response) {
-                $("#emi-per-month").text(response.statuMessage);
-                $("#emi-per-month").show();
+                $("#statusMessage").text(response.statusMessage);
+                $("#statusMessage").show();
             });
         }
     </script>
