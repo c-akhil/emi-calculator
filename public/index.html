@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emi Calculator</title>
+</head>
+
+<body>
+
+
+    <div class="container m-5 p-5">
+        <div class="card bg-light mb-3">
+            <div class="card-header">EMI Calculator</div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="total-principal" placeholder="Principal (P): $">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="rate-of-interest"
+                            placeholder="Rate (R): % per year">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="time-period" placeholder="Time (t):">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="calculateEmi()">Calculate EMI</button>
+                </form>
+            </div>
+        </div>
+        <div id="emi-per-month" hidden style="display: none;" class="p-3 mb-2 bg-info text-white"></div>
+
+    </div>
+    <script>
+        let baseURL = "http://localhost:5555/"
+        function calculateEmi() {
+            let totalPrincipal = +parseFloat($("#total-principal").val());
+            let rateOfInterest = +parseFloat($("#rate-of-interest").val());
+            let timePeriod = +parseFloat($("#time-period").val());
+            let requestBody = {
+                totalPrincipal: totalPrincipal,
+                rateOfInterest: rateOfInterest,
+                timePeriod: timePeriod
+            }
+            $.post(baseURL + "api/calculateEmi", requestBody, function (response) {
+                $("#emi-per-month").text(response.statuMessage);
+                $("#emi-per-month").show();
+            });
+        }
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</body>
+
+</html>
