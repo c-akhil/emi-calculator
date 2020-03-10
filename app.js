@@ -39,13 +39,24 @@ app.post('/api/calculateEmi', (req, res) => {
 
         responseBody.emiPerMonth = parseFloat((req.body.totalAmount / req.body.noOfMonths));
         console.log(responseBody, "response body")
-        responseBody.statusMessage ="Your per month emi is $"+ parseFloat((req.body.totalAmount / req.body.noOfMonths));
+        responseBody.statusMessage = "Emi Details";
+        responseBody.paymentsList = [];
+        let Rn = +((+req.body.rateOfInterest / 100)) / 12;
+        let A = +req.body.totalPrincipal;
+        let N = +req.body.timePeriod;
+        for (let n = 1; n <= (req.body.timePeriod); n++) {
+            let payment = (Rn * A) * Math.pow((1 + Rn), N) / (Math.pow((1 + Rn), N) - 1);
+            let PP = payment * Math.pow((1 + Rn), -(1 + N - n));
+            let INT = payment - PP;
+            let OB = (INT / Rn) - PP;
+            responseBody.paymentsList.push({
+                paymentAmount: payment,
+                principalAmountPaid: PP,
+                intrestAmountPaid: INT,
+                loanOutstanding: OB
+            })
+        }
 
-
-        responseBody.paymentAmount = req.body.totalPrincipal;
-        responseBody.principalAmountPaid = 0;
-        responseBody.intrestAmountPaid = 0;
-        responseBody.loanOutstanding =  req.body.totalPrincipal;
         res.status(200).send(responseBody);
     }
 })

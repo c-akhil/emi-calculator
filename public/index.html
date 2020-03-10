@@ -23,7 +23,7 @@
                             placeholder="Rate (R): % per year">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="time-period" placeholder="Time (t):">
+                        <input type="text" class="form-control" id="time-period" placeholder="Time (t):(no of months)">
                     </div>
                     <button type="button" class="btn btn-primary" onclick="calculateEmi()">Calculate EMI</button>
                 </form>
@@ -60,17 +60,19 @@
                 $('input').val("");
                 $("#statusMessage").text(response.statusMessage);
                 $("#statusMessage").show();
-                if (response.paymentAmount) {
-                    $("#tbody").append(
+                $("#tbody>tr").remove();
+                $('#table').hide()
+                if (response.paymentsList && response.paymentsList.length > 0) {
+                    response.paymentsList.forEach((payment, index) => $("#tbody").append(
                         `<tr>
-                            <th scope="row">${$('#tbody>tr').length + 1}</th>
-                            <td>${response.paymentAmount}</td>
-                            <td>${response.principalAmountPaid}</td>
-                            <td>${response.intrestAmountPaid}</td>
+                            <th scope="row">${index + 1}</th>
+                            <td>${payment.paymentAmount}</td>
+                            <td>${payment.principalAmountPaid}</td>
+                            <td>${payment.intrestAmountPaid}</td>
                             
-                            <td>${response.loanOutstanding}</td>
+                            <td>${payment.loanOutstanding}</td>
                         </tr>`
-                    );
+                    ));
                     $('#table').show()
                 }
             });
