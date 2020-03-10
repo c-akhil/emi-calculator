@@ -37,9 +37,15 @@ app.post('/api/calculateEmi', (req, res) => {
     }
     else {
 
-        // responseBody.emiPerMonth = parseFloat((req.body.totalAmount / req.body.noOfMonths));
+        responseBody.emiPerMonth = parseFloat((req.body.totalAmount / req.body.noOfMonths));
         console.log(responseBody, "response body")
-        responseBody.statusMessage = "Please write calculation logic"
+        responseBody.statusMessage ="Your per month emi is $"+ parseFloat((req.body.totalAmount / req.body.noOfMonths));
+
+
+        responseBody.paymentAmount = req.body.totalPrincipal;
+        responseBody.principalAmountPaid = 0;
+        responseBody.intrestAmountPaid = 0;
+        responseBody.loanOutstanding =  req.body.totalPrincipal;
         res.status(200).send(responseBody);
     }
 })

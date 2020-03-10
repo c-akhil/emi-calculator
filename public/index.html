@@ -30,6 +30,19 @@
             </div>
         </div>
         <div id="statusMessage" style="display: none;" class="p-3 mb-2 bg-info text-white"></div>
+        <table id="table" class="table" style="display: none;">
+            <thead>
+                <tr>
+                    <th scope="col">Payment No</th>
+                    <th scope="col">Payment Amount</th>
+                    <th scope="col">Principal Amount Paid</th>
+                    <th scope="col">Intrest Amount Paid</th>
+                    <th scope="col">Loan Outstanding Balance</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
 
     </div>
     <script>
@@ -44,8 +57,22 @@
                 timePeriod: timePeriod
             }
             $.post(baseURL + "api/calculateEmi", requestBody, function (response) {
+                $('input').val("");
                 $("#statusMessage").text(response.statusMessage);
                 $("#statusMessage").show();
+                if (response.paymentAmount) {
+                    $("#tbody").append(
+                        `<tr>
+                            <th scope="row">${$('#tbody>tr').length + 1}</th>
+                            <td>${response.paymentAmount}</td>
+                            <td>${response.principalAmountPaid}</td>
+                            <td>${response.intrestAmountPaid}</td>
+                            
+                            <td>${response.loanOutstanding}</td>
+                        </tr>`
+                    );
+                    $('#table').show()
+                }
             });
         }
     </script>
