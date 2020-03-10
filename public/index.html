@@ -61,7 +61,6 @@
                 $("#statusMessage").text(response.statusMessage);
                 $("#statusMessage").show();
                 $("#tbody>tr").remove();
-                $('#table').hide()
                 if (response.paymentsList && response.paymentsList.length > 0) {
                     response.paymentsList.forEach((payment, index) => $("#tbody").append(
                         `<tr>
@@ -73,7 +72,9 @@
                             <td>${payment.loanOutstanding}</td>
                         </tr>`
                     ));
-                    $('#table').show()
+                    $('#table').show();
+                }else {
+                    $('#table').hide();
                 }
             });
         }
